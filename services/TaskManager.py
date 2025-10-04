@@ -1,29 +1,25 @@
 from models.Tarefa import Tarefa
+from models.TarefaRepository import TarefaRepository
 
 class TaskManager:
     def __init__(self):
-        self._all_tasks = []
-        self._next_task_id = 1
+        self.model = TarefaRepository('taskDB.db')
 
     def addTask(self, description, userId):
-        new_task = Tarefa(self._next_task_id, description, userId)
-        self._all_tasks.append(new_task)
-        self._next_task_id += 1 
+        new_task = Tarefa(description, userId) 
+        self.model.adicionar_tarefa(new_task.getUserId(), new_task.getDescription().strip()) 
         return new_task
     
     def markTaskCompleted(self, taskId, userId):
         for task in self._all_tasks:
             if task.getId() == taskId and task.getUserId() == userId:
-                task.completeTask()
+                description = task.getDescription()
+                self.model.atualizar_tarefa(taskId, userId, description, True)
                 return True
         return False
     
     def deleteTask(self, taskId, userId):
-        for task in self._all_tasks:
-            if task.getId() == taskId and task.getUserId() == userId:
-                self._all_tasks.remove(task)
-                return True
-        return False
+        self.model.excluir_tarefa(taskId, userId)
     
     def addTaskEveryone(self, description, user_manager):
         for user in user_manager.getAllUsers():

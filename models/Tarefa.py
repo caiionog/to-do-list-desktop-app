@@ -1,6 +1,6 @@
 class Tarefa:
-    def __init__(self, id, description, userId):
-        self._id = id
+    def __init__(self, description, userId):
+        self._id = None
         self._description = description
         self._userId = userId
         self._isCompleted = False
