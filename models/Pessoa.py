@@ -29,11 +29,18 @@ class Pessoa(ABC):
         return self._is_admin
 
     def viewTask(self, task_manager):
+    # O TaskManager retorna uma lista de dicionários!
         tasks = task_manager.getTasksForUser(self.getId())
+    
         if not tasks:
             print("Nenhuma tarefa atribuída.")
         else:
             for task in tasks:
-                status = "Concluída" if task.getStatus() else "Pendente"
-                print(f"ID: {task.getId()} | Status: {status} | Descrição: {task.getDescription()}")
-    
+            # 1. Acesse as chaves do dicionário em vez de métodos (task.get...)
+                task_id = task['id']
+                descricao = task['descricao']
+            
+            # 2. A chave 'concluida' é um booleano (True/False)
+                status = "Concluída" if task['concluida'] else "Pendente"
+            
+                print(f"ID: {task_id} | Status: {status} | Descrição: {descricao}")
