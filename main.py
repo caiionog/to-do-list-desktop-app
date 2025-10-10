@@ -1,7 +1,6 @@
 from services.UserManager import UserManager
 from services.TaskManager import TaskManager
 from services.AuthController import AuthController
-from interface.Menu import Interface
 from interface.App import App
 
 def run_app():
